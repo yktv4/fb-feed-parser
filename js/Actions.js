@@ -1,0 +1,7 @@
+var Actions = {
+    login: {
+        stateChange: Reflux.createAction(),
+        success: Reflux.createAction(),
+        click: Reflux.createAction(),
+    }
+};

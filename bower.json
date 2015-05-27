@@ -20,6 +20,9 @@
   ],
   "dependencies": {
     "jquery": "~2.1.4",
-    "bootstrap": "~3.3.4"
+    "bootstrap": "~3.3.4",
+    "react": "~0.13.3",
+    "reflux": "~0.2.7",
+    "promise-polyfill": "~2.0.2"
   }
 }
