@@ -5,7 +5,7 @@ var PostsStore = Reflux.createStore({
     },
     fetchPosts: function (pageId, number) {
         FB.api(
-            '/' + pageId + '/feed',
+            '/' + pageId + '/feed?limit=' + number,
             function (response) {
                 if (response && !response.error) {
                     this.posts = response.data;
@@ -14,6 +14,7 @@ var PostsStore = Reflux.createStore({
             }.bind(this)
         );
     },
+
     get: function () {
         return this.posts;
     }

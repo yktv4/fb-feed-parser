@@ -9,16 +9,20 @@ var PostsGrid = React.createClass({
         this.setState({posts: PostsStore.get()});
     },
     renderTable: function () {
-        return <table className="table table-bordered">
-            <tr>
-                <th>Date</th>
-                <th>Message</th>
-                <th>Likes</th>
-            </tr>
-            { this.state.posts.map(function (el, idx) {
-                return <PostGridItem key={ idx } post={ el } />
-            }) }
-        </table>
+        return (
+            <table className="table table-bordered table-condensed table-striped">
+                <tbody>
+                    <tr>
+                        <th>Date</th>
+                        <th>Message</th>
+                        <th>Likes</th>
+                    </tr>
+                    { this.state.posts.map(function (el) {
+                        return <PostGridItem key={ el.id } post={ el } />
+                    }) }
+                </tbody>
+            </table>
+        );
     },
     renderNoPosts: function () {
         return (<div>No posts fetched yet</div>);
