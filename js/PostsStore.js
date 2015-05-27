@@ -4,6 +4,9 @@ var PostsStore = Reflux.createStore({
         Actions.fetch.listen(this.fetchPosts)
     },
     fetchPosts: function (pageId, number) {
+        this.posts = [];
+        this.trigger();
+
         FB.api(
             '/' + pageId + '/feed?limit=' + number,
             function (response) {
