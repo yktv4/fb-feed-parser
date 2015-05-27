@@ -9,8 +9,8 @@ var FetchForm = React.createClass({
     render: function () {
         return (
             <div className="well">
-                <input type="text" id="js-page-id" className="form-control" placeholder="page id" />
-                <input type="text" id="js-max-posts-number" className="form-control" placeholder="max number of posts" />
+                <input type="text" id="js-page-id" className="form-control" placeholder="page id" value="hotelcomau" />
+                <input type="text" id="js-max-posts-number" className="form-control" placeholder="max number of posts" value="10" />
                 <button className="btn" onClick={ this.onSubmit }>Fetch</button>
             </div>
         )

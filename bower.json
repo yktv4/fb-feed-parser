@@ -23,6 +23,7 @@
     "bootstrap": "~3.3.4",
     "react": "~0.13.3",
     "reflux": "~0.2.7",
-    "promise-polyfill": "~2.0.2"
+    "promise-polyfill": "~2.0.2",
+    "moment": "~2.10.3"
   }
 }

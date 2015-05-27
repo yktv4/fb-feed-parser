@@ -11,12 +11,12 @@ var PostsGrid = React.createClass({
     renderTable: function () {
         return <table className="table table-bordered">
             <tr>
-                <th>date</th>
-                <th>message</th>
-                <th>likes</th>
+                <th>Date</th>
+                <th>Message</th>
+                <th>Likes</th>
             </tr>
-            { this.state.posts.map(function (el) {
-                return <PostGridItem post={ el } />
+            { this.state.posts.map(function (el, idx) {
+                return <PostGridItem key={ idx } post={ el } />
             }) }
         </table>
     },
