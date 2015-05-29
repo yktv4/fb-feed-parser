@@ -23,6 +23,7 @@ var PostsGrid = React.createClass({
                         <th>Date</th>
                         <th>Message</th>
                         <th>Likes</th>
+                        <th>Shares</th>
                     </tr>
                 </thead>
                 <tbody>
