@@ -9,7 +9,6 @@ var KeywordsGrid = React.createClass({
         var keywords = KeywordsStore.get();
         this.setState({keywords: keywords});
 
-        console.log(keywords.length, keywords);
         if (keywords.length !== 0) {
             $(React.findDOMNode(this)).find('table').DataTable({
                 paging: false

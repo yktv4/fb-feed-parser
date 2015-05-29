@@ -9,7 +9,7 @@ var KeywordsStore = Reflux.createStore({
         if (!PostsStore.isEmpty()) {
             var keywords = PostsStore.get().map(function (el) {
                 return el.message;
-            }).join(' ').replace(/(\r\n|\n|\r|\(|\)|\?|\.|,|&|:|;|!|"|\+|\-)/gm, '').split(' ')
+            }).join(' ').replace(/(\r\n|\n|\r|\(|\)|\?|\.|,|&|:|;|!|"|\+|\-|=)/gm, '').split(' ')
                 .reduce(function (carry, item) {
                     item = item.toLowerCase().trim();
                     item && (carry[item] = (carry[item] || 0) + 1);
