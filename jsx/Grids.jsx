@@ -24,7 +24,7 @@ var Grids = React.createClass({
                         </li>
                     </ul>
                 </div>
-                <div>
+                <div className="grids-container">
                     <PostsGrid visible={ this.isPostsVisible() } />
                     <KeywordsGrid visible={ this.isKeywordsVisible() } />
                 </div>
