@@ -17,8 +17,10 @@ var PostsStore = Reflux.createStore({
             }.bind(this)
         );
     },
-
     get: function () {
         return this.posts;
+    },
+    isEmpty: function () {
+        return this.posts.length === 0;
     }
 });
