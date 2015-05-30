@@ -1,6 +1,6 @@
 var PostsStore = Reflux.createStore({
     posts: [],
-    maxCallLimit: 250,
+    maxCallLimit: 50,
     init: function () {
         Actions.fetch.listen(this.fetchPosts)
     },
@@ -28,7 +28,7 @@ var PostsStore = Reflux.createStore({
     fbApiCall: function (pageId, limit, offset) {
         return new Promise(function (resolve, reject) {
             FB.api(
-                '/' + pageId + '/feed?offset=' + offset + '&limit=' + limit,
+                '/' + pageId + '/posts?offset=' + offset + '&limit=' + limit,
                 function (response) {
                     if (!response || response.error) {
                         reject(response.error || 'no response received');

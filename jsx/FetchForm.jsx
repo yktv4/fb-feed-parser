@@ -7,6 +7,24 @@ var FetchForm = React.createClass({
 
         Actions.fetch(pageId, maxPostsNumber);
     },
+    download: function () {
+        var data = [["name1", "city1", "some other info"], ["name2", "city2", "more info"]];
+        var csvContent = PostsStore.get().reduce(function (carry, item, idx) {
+            var row = [
+                item.created_time,
+                item.message,
+                (item.likes && item.likes.data.length) || 0,
+                (item.shares && (item.shares.count) || 0)
+            ].map(function (el) {
+                    return '"' + el.toString().replace(/"/gm, '\\"') + '"';
+                }).join(',');
+            carry += idx < PostsStore.get().length ? row + "\n" : row;
+            return carry;
+        }, 'data:text/csv;charset=utf-8,"Date","Message","Likes","Shares"\n');
+
+        var encodedUri = encodeURI(csvContent);
+        window.open(encodedUri);
+    },
     render: function () {
         return (
             <div className="well clearfix">
@@ -21,6 +39,9 @@ var FetchForm = React.createClass({
                         <button className="btn" onClick={ this.onSubmit }>Fetch</button>
                     </div>
                 </form>
+                <div className=" col-sm-6 col-lg-2">
+                    <button className="btn" onClick={ this.download }>Export</button>
+                </div>
             </div>
         )
     }
