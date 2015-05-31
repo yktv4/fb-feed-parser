@@ -2,9 +2,7 @@ var Application = React.createClass({
     render: function () {
         return (
             <div>
-                <div className="well">
-                    <FacebookLogin />
-                </div>
+                <FacebookLogin />
                 <ActionsBlock />
             </div>
         )

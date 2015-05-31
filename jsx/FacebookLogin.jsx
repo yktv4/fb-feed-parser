@@ -23,9 +23,11 @@ var FacebookLogin = React.createClass({
             message = 'Please log into facebook';
         }
         return (
-            <div>
-                <button className="btn btn-default" onClick={ this.onLoginClick } disabled={ disabled }>{ message }</button>
-                <Preloader />
+            <div className="well clearfix">
+                <div className="col-sm-12">
+                    <button className="btn btn-default" onClick={ this.onLoginClick } disabled={ disabled }>{ message }</button>
+                    <Preloader />
+                </div>
             </div>
         )
     }
