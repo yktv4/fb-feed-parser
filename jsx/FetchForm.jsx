@@ -13,7 +13,7 @@ var FetchForm = React.createClass({
             var row = [
                 item.created_time,
                 item.message,
-                (item.likes && item.likes.data.length) || 0,
+                item.likes.summary.total_count,
                 (item.shares && (item.shares.count) || 0)
             ].map(function (el) {
                     return '"' + el.toString().replace(/"/gm, '""') + '"';

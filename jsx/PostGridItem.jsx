@@ -3,7 +3,7 @@ var PostGridItem = React.createClass({
         return moment(this.props.post.created_time).format('YYYY-MM-DD HH-mm');
     },
     getLikesNumber: function () {
-        return (this.props.post.likes && this.props.post.likes.data.length) || 0;
+        return this.props.post.likes.summary.total_count;
     },
     getSharesNumber: function () {
         return (this.props.post.shares && this.props.post.shares.count) || 0;
