@@ -15,13 +15,13 @@ var FetchForm = React.createClass({
     render: function () {
         return (
             <div className="well clearfix">
-                <div className=" col-sm-6 col-lg-2">
-                    <input type="text" id="js-page-id" className="form-control" placeholder="page id" defaultValue="hotelcomau"  onKeyUp={ this.onInputKeyPress } />
+                <div className="col-sm-6 col-lg-2">
+                    <input type="text" id="js-page-id" className="form-control" placeholder="page id" onKeyUp={ this.onInputKeyPress } />
                 </div>
-                <div className=" col-sm-6 col-lg-2">
-                    <input type="text" id="js-posts-number" className="form-control col-sm-6 col-xs-2" placeholder="number of posts" defaultValue="10" onKeyUp={ this.onInputKeyPress } />
+                <div className="col-sm-6 col-lg-2">
+                    <input type="text" id="js-posts-number" className="form-control col-sm-6 col-xs-2" defaultValue="10" onKeyUp={ this.onInputKeyPress } />
                 </div>
-                <div className=" col-sm-6 col-lg-2">
+                <div className="col-sm-6 col-lg-2">
                     <div className="btn-group" role="group" aria-label="...">
                         <button type="button" className="btn btn-default" onClick={ this.onSubmit }>Fetch</button>
                         <Export />
