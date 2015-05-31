@@ -1,6 +1,6 @@
 var PostsStore = Reflux.createStore({
     posts: [],
-    maxCallLimit: 50,
+    maxCallLimit: 150,
     init: function () {
         Actions.fetch.listen(this.fetchPosts)
     },
@@ -10,34 +10,60 @@ var PostsStore = Reflux.createStore({
         this.trigger();
 
         if (number > this.maxCallLimit) {
-            var limits = (new Array(Math.floor(number / this.maxCallLimit))).join(' ').split(' ')
-                .map(function () {return this.maxCallLimit;}.bind(this));
-            number % this.maxCallLimit === 0 || limits.push(this.maxCallLimit - number);
-            promises = limits.map(function (el, idx) {
-                return this.fbApiCall(pageId, el, idx === 0 ? 0 : (idx * this.maxCallLimit)+1);
-            }.bind(this));
+            this.fetchPostsWithPaging(pageId, number);
         } else {
-            promises.push(this.fbApiCall(pageId, number, 0));
+            this.fbApiCall(pageId, number).then(function (result) {
+                this.posts = result.data;
+                this.trigger();
+            }.bind(this))
         }
-
-        Promise.all(promises).then(function (results) {
-            this.posts = this.posts.concat.apply(this.posts, results);
-            this.trigger();
-        }.bind(this));
     },
-    fbApiCall: function (pageId, limit, offset) {
+    fbApiCall: function (pageId, limit) {
         return new Promise(function (resolve, reject) {
             FB.api(
-                '/' + pageId + '/posts?offset=' + offset + '&limit=' + limit,
+                '/' + pageId + '/posts?fields=message,shares,likes.summary(true)&limit=' + limit,
                 function (response) {
                     if (!response || response.error) {
                         reject(response.error || 'no response received');
                     } else {
-                        resolve(response.data);
+                        resolve(response);
                     }
                 }.bind(this)
             );
         });
+    },
+    fbApiPaginatedCall: function (next, neededNumber) {
+        var result;
+        if (!next) {
+            result = Promise.resolve();
+        } else {
+            result = fetch(next).then(function (response) {
+                return response.text();
+            }).then(function (text) {
+                return JSON.parse(text);
+            }).then(function (result) {
+                this.addPosts(result.data);
+                if (this.posts.length < neededNumber) {
+                    return this.fbApiPaginatedCall(result.paging.next, neededNumber);
+                }
+            }.bind(this));
+        }
+
+        return result;
+    },
+    fetchPostsWithPaging: function (pageId, number) {
+        this.fbApiCall(pageId, this.maxCallLimit).then(function (result) {
+            this.addPosts(result.data);
+            return result.paging;
+        }.bind(this)).then(function (paging) {
+            return this.fbApiPaginatedCall(paging.next, number);
+        }.bind(this)).then(function () {
+            this.posts = this.posts.slice(0, number);
+            this.trigger();
+        }.bind(this));
+    },
+    addPosts: function (postsToAdd) {
+        this.posts = this.posts.concat.apply(this.posts, postsToAdd);
     },
     get: function () {
         return this.posts;
