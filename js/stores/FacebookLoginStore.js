@@ -3,6 +3,7 @@ var FacebookLoginStore = Reflux.createStore({
     init: function () {
         this.listenTo(Actions.login.stateChange, this.updateLoginState);
         this.listenTo(Actions.login.click, this.onLogin);
+        Actions.loading.start();
 
         fbLoads.then(function () {
             this.updateLoginState();
@@ -16,6 +17,7 @@ var FacebookLoginStore = Reflux.createStore({
         });
     },
     updateLoginState: function () {
+        Actions.loading.start();
         FB.getLoginStatus(function(response) {
             this.state = response.status;
             this.trigger();
@@ -23,6 +25,8 @@ var FacebookLoginStore = Reflux.createStore({
             if (this.state == 'connected') {
                 Actions.login.success();
             }
+
+            Actions.loading.stop();
         }.bind(this));
     },
     get: function () {

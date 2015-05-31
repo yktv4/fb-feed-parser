@@ -5,5 +5,9 @@ var Actions = {
         click: Reflux.createAction()
     },
     fetch: Reflux.createAction(),
-    error: Reflux.createAction()
+    error: Reflux.createAction(),
+    loading: {
+        start: Reflux.createAction(),
+        stop: Reflux.createAction()
+    }
 };

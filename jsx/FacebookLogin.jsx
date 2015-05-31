@@ -25,6 +25,7 @@ var FacebookLogin = React.createClass({
         return (
             <div>
                 <button className="btn btn-default" onClick={ this.onLoginClick } disabled={ disabled }>{ message }</button>
+                <Preloader />
             </div>
         )
     }

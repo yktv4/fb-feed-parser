@@ -4,3 +4,9 @@
 .modal-backdrop {
     opacity: .7;
 }
+.preloader {
+    width: 32px;
+    height: 32px;
+    background: url(../img/preloader.gif) no-repeat;
+    float: right;
+}
