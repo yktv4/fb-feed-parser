@@ -16,7 +16,7 @@ var FetchForm = React.createClass({
                 (item.likes && item.likes.data.length) || 0,
                 (item.shares && (item.shares.count) || 0)
             ].map(function (el) {
-                    return '"' + el.toString().replace(/"/gm, '\\"') + '"';
+                    return '"' + el.toString().replace(/"/gm, '""') + '"';
                 }).join(',');
             carry += idx < PostsStore.get().length ? row + "\n" : row;
             return carry;
