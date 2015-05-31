@@ -11,7 +11,7 @@ var PostsGrid = React.createClass({
 
         if (posts.length !== 0) {
             $(React.findDOMNode(this)).find('table').DataTable({
-                paging: false
+                paging: true
             });
         }
     },
