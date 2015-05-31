@@ -4,5 +4,6 @@ var Actions = {
         success: Reflux.createAction(),
         click: Reflux.createAction()
     },
-    fetch: Reflux.createAction()
+    fetch: Reflux.createAction(),
+    error: Reflux.createAction()
 };

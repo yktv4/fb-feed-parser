@@ -19,7 +19,9 @@ var PostsStore = Reflux.createStore({
         this.posts = [];
         this.trigger();
 
-        whenAllPostsFetched.then(this.setPosts).catch(Actions.error);
+        whenAllPostsFetched.then(this.setPosts).catch(function (error) {
+            Actions.error('Facebook API exception: ' + error.message);
+        });
     },
     fetchPostsWithSingleRequest: function (pageId, limit) {
         return this.initialFbApiCall(pageId, limit).then(function (result) {

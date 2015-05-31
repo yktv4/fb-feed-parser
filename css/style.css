@@ -1,3 +1,6 @@
 .grids-container {
     margin: 25px 0;
 }
+.modal-backdrop {
+    opacity: .7;
+}

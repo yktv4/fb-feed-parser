@@ -22,7 +22,6 @@
     <script src="bower_components/promise-polyfill/Promise.min.js"></script>
 </head>
 <body>
-
 <script>
     window.fbLoads = new Promise(function(resolve, reject) {
         window.fbAsyncInit = function() {
@@ -43,7 +42,7 @@
         }(document, 'script', 'facebook-jssdk'));
     });
 </script>
-
+<div id="modal-container"></div>
 <div class="container" id="application"></div>
 
 <script src="bower_components/jquery/dist/jquery.min.js"></script>
@@ -64,6 +63,7 @@
 <script src="js/stores/PostsStore.js"></script>
 <script src="js/stores/KeywordsStore.js"></script>
 
+<script type="text/jsx" src="jsx/Modal.jsx"></script>
 <script type="text/jsx" src="jsx/PostGridItem.jsx"></script>
 <script type="text/jsx" src="jsx/KeywordGridItem.jsx"></script>
 <script type="text/jsx" src="jsx/PostsGrid.jsx"></script>
