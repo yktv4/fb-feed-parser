@@ -1,5 +1,8 @@
 .grids-container {
-    margin: 25px 0;
+    padding: 25px 35px;
+    margin-bottom: 25px;
+    border: 1px solid #ddd;
+    border-top: none;
 }
 .modal-backdrop {
     opacity: .7;
@@ -9,4 +12,7 @@
     height: 32px;
     background: url(../img/preloader.gif) no-repeat;
     float: right;
+}
+.date-cell {
+    white-space: nowrap;
 }
