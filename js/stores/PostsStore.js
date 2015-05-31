@@ -13,7 +13,7 @@ var PostsStore = Reflux.createStore({
             this.fetchPostsWithPaging(pageId, number);
         } else {
             this.fbApiCall(pageId, number).then(function (result) {
-                this.posts = result.data;
+                this.addPosts(result.data);
                 this.trigger();
             }.bind(this))
         }
@@ -63,7 +63,9 @@ var PostsStore = Reflux.createStore({
         }.bind(this));
     },
     addPosts: function (postsToAdd) {
-        this.posts = this.posts.concat.apply(this.posts, postsToAdd);
+        this.posts = this.posts.concat.apply(this.posts, postsToAdd).map(function (attributes) {
+            return new Post(attributes, {parse: true});
+        })
     },
     get: function () {
         return this.posts;

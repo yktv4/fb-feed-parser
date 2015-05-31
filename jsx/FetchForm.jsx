@@ -10,18 +10,15 @@ var FetchForm = React.createClass({
     download: function () {
         var data = [["name1", "city1", "some other info"], ["name2", "city2", "more info"]];
         var csvContent = PostsStore.get().reduce(function (carry, item, idx) {
-            var row = [
-                item.created_time,
-                item.message,
-                item.likes.summary.total_count,
-                (item.shares && (item.shares.count) || 0)
+            return carry + [
+                item.getFormattedDate(),
+                item.get('message').replace(/"/gm, '""'),
+                item.get('likes'),
+                item.get('shares')
             ].map(function (el) {
-                    return '"' + el.toString().replace(/"/gm, '""') + '"';
-                }).join(',');
-            carry += idx < PostsStore.get().length ? row + "\n" : row;
-            return carry;
+                    return '"' + el + '"';
+            }).join(',') + '\n';
         }, 'data:text/csv;charset=utf-8,"Date","Message","Likes","Shares"\n');
-
         var encodedUri = encodeURI(csvContent);
         window.open(encodedUri);
     },

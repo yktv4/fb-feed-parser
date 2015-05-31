@@ -1,5 +1,6 @@
 var KeywordsStore = Reflux.createStore({
     keywords: [],
+    quantityToDisplay: 100,
     init: function () {
         PostsStore.listen(this.onPostsUpdated);
     },
@@ -8,7 +9,7 @@ var KeywordsStore = Reflux.createStore({
 
         if (!PostsStore.isEmpty()) {
             var keywords = PostsStore.get().map(function (el) {
-                return el.message;
+                return el.get('message');
             }).join(' ').replace(/(\r\n|\n|\r|\(|\)|\?|\.|,|&|:|;|!|"|\+|\-|=)/gm, '').split(' ')
                 .reduce(function (carry, item) {
                     item = item.toLowerCase().trim();
@@ -22,7 +23,7 @@ var KeywordsStore = Reflux.createStore({
             }
             sortable.sort(function(a, b) {return b[1] - a[1]});
 
-            this.keywords = sortable.slice(0, 100);
+            this.keywords = sortable.slice(0, this.quantityToDisplay);
         }
 
         this.trigger();

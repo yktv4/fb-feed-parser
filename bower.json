@@ -26,6 +26,8 @@
     "promise-polyfill": "~2.0.2",
     "moment": "~2.10.3",
     "datatables": "~1.10.7",
-    "fetch": "~0.9.0"
+    "fetch": "~0.9.0",
+    "backbone": "~1.2.0",
+    "underscore": "~1.8.3"
   }
 }
