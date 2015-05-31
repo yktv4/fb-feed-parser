@@ -13,7 +13,7 @@ var PostsStore = Reflux.createStore({
                 fetcherFunction = this.fetchPostsWithSingleRequest;
             }
 
-            fetcherFunction.apply(this, [pageId, number]).then(resolve);
+            fetcherFunction.apply(this, [pageId, number]).then(resolve).catch(reject);
         }.bind(this));
 
         this.posts = [];
