@@ -5,20 +5,38 @@ var PostsStore = Reflux.createStore({
         Actions.fetch.listen(this.fetchPosts)
     },
     fetchPosts: function (pageId, number) {
-        var promises = [];
+        var whenAllPostsFetched = new Promise(function (resolve, reject) {
+            var fetcherFunction;
+            if (number > this.maxCallLimit) {
+                fetcherFunction = this.fetchPostsWithMultipleRequests;
+            } else {
+                fetcherFunction = this.fetchPostsWithSingleRequest;
+            }
+
+            fetcherFunction.apply(this, [pageId, number]).then(resolve);
+        }.bind(this));
+
         this.posts = [];
         this.trigger();
 
-        if (number > this.maxCallLimit) {
-            this.fetchPostsWithPaging(pageId, number);
-        } else {
-            this.fbApiCall(pageId, number).then(function (result) {
-                this.addPosts(result.data);
-                this.trigger();
-            }.bind(this))
-        }
+        whenAllPostsFetched.then(this.setPosts).catch(Actions.error);
     },
-    fbApiCall: function (pageId, limit) {
+    fetchPostsWithSingleRequest: function (pageId, limit) {
+        return this.initialFbApiCall(pageId, limit).then(function (result) {
+            return result.data;
+        });
+    },
+    fetchPostsWithMultipleRequests: function (pageId, neededNumber) {
+        var firstPosts = [];
+
+        return this.initialFbApiCall(pageId, this.maxCallLimit).then(function (result) {
+            firstPosts = result.data;
+            return this.processFbPaginatedCall(result.paging.next, neededNumber - firstPosts.length);
+        }.bind(this)).then(function (furtherPosts) {
+            return firstPosts.concat.apply(firstPosts, furtherPosts).slice(0, neededNumber);
+        });
+    },
+    initialFbApiCall: function (pageId, limit) {
         return new Promise(function (resolve, reject) {
             FB.api(
                 '/' + pageId + '/posts?fields=message,shares,likes.summary(true)&limit=' + limit,
@@ -32,40 +50,31 @@ var PostsStore = Reflux.createStore({
             );
         });
     },
-    fbApiPaginatedCall: function (next, neededNumber) {
-        var result;
-        if (!next) {
-            result = Promise.resolve();
-        } else {
-            result = fetch(next).then(function (response) {
-                return response.text();
-            }).then(function (text) {
-                return JSON.parse(text);
-            }).then(function (result) {
-                this.addPosts(result.data);
-                if (this.posts.length < neededNumber) {
-                    return this.fbApiPaginatedCall(result.paging.next, neededNumber);
-                }
-            }.bind(this));
-        }
+    processFbPaginatedCall: function (url, neededNumber, alreadyParsedPosts) {
+        alreadyParsedPosts = alreadyParsedPosts || [];
 
-        return result;
-    },
-    fetchPostsWithPaging: function (pageId, number) {
-        this.fbApiCall(pageId, this.maxCallLimit).then(function (result) {
-            this.addPosts(result.data);
-            return result.paging;
-        }.bind(this)).then(function (paging) {
-            return this.fbApiPaginatedCall(paging.next, number);
-        }.bind(this)).then(function () {
-            this.posts = this.posts.slice(0, number);
-            this.trigger();
+        return fetch(url).then(function (response) {
+            return response.text();
+        }).then(function (text) {
+            return JSON.parse(text);
+        }).then(function (response) {
+            var result;
+
+            alreadyParsedPosts = alreadyParsedPosts.concat.apply(alreadyParsedPosts, response.data);
+            if (alreadyParsedPosts.length < neededNumber && response.paging) {
+                result = this.processFbPaginatedCall(response.paging.next, neededNumber, alreadyParsedPosts);
+            } else {
+                result = alreadyParsedPosts;
+            }
+
+            return result;
         }.bind(this));
     },
-    addPosts: function (postsToAdd) {
-        this.posts = this.posts.concat.apply(this.posts, postsToAdd).map(function (attributes) {
+    setPosts: function (fbApiPosts) {
+        this.posts = fbApiPosts.map(function (attributes) {
             return new Post(attributes, {parse: true});
-        })
+        });
+        this.trigger();
     },
     get: function () {
         return this.posts;
