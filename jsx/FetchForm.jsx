@@ -5,7 +5,11 @@ var FetchForm = React.createClass({
         var pageId = $domNode.find('#js-page-id').val();
         var postsNumber = $domNode.find('#js-posts-number').val();
 
-        Actions.fetch(pageId, postsNumber);
+        if (!pageId || !postsNumber) {
+            Actions.error('Please fill in page id and posts number fields');
+        } else {
+            Actions.fetch(pageId, postsNumber);
+        }
     },
     onInputKeyPress: function (e) {
         if (e.keyCode == 13) {
@@ -19,7 +23,7 @@ var FetchForm = React.createClass({
                     <input type="text" id="js-page-id" className="form-control" placeholder="page id" onKeyUp={ this.onInputKeyPress } />
                 </div>
                 <div className="col-sm-6 col-lg-2">
-                    <input type="text" id="js-posts-number" className="form-control col-sm-6 col-xs-2" defaultValue="10" onKeyUp={ this.onInputKeyPress } />
+                    <input type="text" id="js-posts-number" className="form-control col-sm-6 col-xs-2" placeholder="number of posts" onKeyUp={ this.onInputKeyPress } />
                 </div>
                 <div className="col-sm-6 col-lg-2">
                     <div className="btn-group" role="group" aria-label="...">
