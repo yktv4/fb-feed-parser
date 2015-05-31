@@ -7,7 +7,7 @@ var Post = Backbone.Model.extend({
     parse: function (response, options) {
         return {
             created_time: response.created_time,
-            message: response.message,
+            message: response.message || '',
             likes: response.likes.summary.total_count,
             shares: (response.shares && response.shares.count) || 0
         }

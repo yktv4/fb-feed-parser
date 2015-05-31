@@ -6,8 +6,7 @@ var Export = React.createClass({
         PostsStore.listen(this.onPostsUpdated);
     },
     download: function () {
-        var data = [["name1", "city1", "some other info"], ["name2", "city2", "more info"]];
-        var csvContent = PostsStore.get().reduce(function (carry, item, idx) {
+        var csvContent = PostsStore.get().reduce(function (carry, item) {
             return carry + [
                     item.getFormattedDate(),
                     item.get('message').replace(/"/gm, '""'),
@@ -15,10 +14,13 @@ var Export = React.createClass({
                     item.get('shares')
                 ].map(function (el) {
                         return '"' + el + '"';
-                    }).join(',') + '\n';
+                    }).join(',') + "\n";
         }, 'data:text/csv;charset=utf-8,"Date","Message","Likes","Shares"\n');
-        var encodedUri = encodeURI(csvContent);
-        window.open(encodedUri);
+        var link = document.createElement('a');
+
+        link.setAttribute('href', encodeURI(csvContent));
+        link.setAttribute('download', 'posts.csv');
+        link.click();
     },
     onPostsUpdated: function () {
         this.setState({disabled: PostsStore.isEmpty()});
