@@ -16,3 +16,7 @@
 .date-cell {
     white-space: nowrap;
 }
+
+#js-posts-grid>tbody>tr {
+    cursor: pointer;
+}

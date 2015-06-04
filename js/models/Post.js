@@ -9,7 +9,10 @@ var Post = Backbone.Model.extend({
             picture: {
                 thumb: response.picture,
                 full: response.picture && 'http://graph.facebook.com/' + response.object_id + '/picture'
-            }
+            },
+            comments: response.comments.data.map(function (comment) {
+                return new Comment(comment, {parse: true});
+            })
         }
     },
     getFormattedDate: function () {

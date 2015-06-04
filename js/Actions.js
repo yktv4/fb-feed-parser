@@ -9,5 +9,9 @@ var Actions = {
     loading: {
         start: Reflux.createAction(),
         stop: Reflux.createAction()
+    },
+    post: {
+        select: Reflux.createAction(),
+        deselect: Reflux.createAction()
     }
 };

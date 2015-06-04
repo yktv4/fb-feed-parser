@@ -15,7 +15,7 @@ var PostsGrid = React.createClass({
     },
     renderTable: function () {
         return (
-            <table id="js-posts-grid" className="table table-condensed table-striped">
+            <table id="js-posts-grid" className="table table-condensed table-striped table-hover">
                 <thead>
                     <tr>
                         <th>Date</th>
@@ -26,7 +26,7 @@ var PostsGrid = React.createClass({
                 </thead>
                 <tbody>
                     { this.state.posts.map(function (el) {
-                        return <PostGridItem key={ el.id } post={ el } />
+                        return <PostGridItem key={ el.get('object_id') } post={ el } />
                     }) }
                 </tbody>
             </table>

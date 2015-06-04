@@ -42,7 +42,7 @@ var PostsStore = Reflux.createStore({
     initialFbApiCall: function (pageId, limit) {
         return new Promise(function (resolve, reject) {
             FB.api(
-                '/' + pageId + '/posts?fields=message,object_id,shares,picture,likes.summary(true)&limit=' + limit,
+                '/' + pageId + '/posts?fields=message,comments,object_id,shares,picture,likes.summary(true)&limit=' + limit,
                 function (response) {
                     if (!response || response.error) {
                         reject(response.error || 'no response received');

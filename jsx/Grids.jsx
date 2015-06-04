@@ -11,6 +11,9 @@ var Grids = React.createClass({
     isKeywordsVisible: function () {
         return this.state.active == 'keywords';
     },
+    isCommentsVisible: function () {
+        return this.state.active == 'comments';
+    },
     render: function () {
         return (
             <div>
@@ -19,6 +22,9 @@ var Grids = React.createClass({
                         <li role="presentation" className={ this.isPostsVisible() ? 'active' : '' }>
                             <a href="javascript:void(0)" onClick={ this.show.bind(this, 'posts') }>Posts</a>
                         </li>
+                        <li role="presentation" className={ this.isCommentsVisible() ? 'active' : '' }>
+                            <a href="javascript:void(0)" onClick={ this.show.bind(this, 'comments') }>Comments</a>
+                        </li>
                         <li role="presentation" className={ this.isKeywordsVisible() ? 'active' : '' }>
                             <a href="javascript:void(0)" onClick={ this.show.bind(this, 'keywords') }>Keywords</a>
                         </li>
@@ -26,6 +32,7 @@ var Grids = React.createClass({
                 </div>
                 <div className="grids-container">
                     <PostsGrid visible={ this.isPostsVisible() } />
+                    <CommentsGrid visible={ this.isCommentsVisible() } />
                     <KeywordsGrid visible={ this.isKeywordsVisible() } />
                 </div>
             </div>

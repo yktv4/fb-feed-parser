@@ -1,7 +1,10 @@
 var PostGridItem = React.createClass({
+    onClick: function () {
+        Actions.post.select(this.props.post);
+    },
     render: function () {
         return (
-            <tr>
+            <tr onClick={ this.onClick }>
                 <td className="date-cell">{ this.props.post.getFormattedDate() }</td>
                 <td>
                     { this.props.post.get('message') }
