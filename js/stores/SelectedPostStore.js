@@ -1,21 +1,18 @@
-var CommentsStore = Reflux.createStore({
-    comments: [],
+var SelectedPostStore = Reflux.createStore({
+    post: null,
     init: function () {
         Actions.post.select.listen(this.onPostSelect);
         Actions.post.deselect.listen(this.onPostDeselect);
     },
     onPostSelect: function (post) {
-        this.comments = post.get('comments');
+        this.post = post;
         this.trigger();
     },
     onPostDeselect: function () {
-        this.comments = [];
+        this.post = null;
         this.trigger();
     },
     get: function () {
-        return this.comments;
-    },
-    isEmpty: function () {
-        return this.comments.length === 0;
+        return this.post;
     }
 });

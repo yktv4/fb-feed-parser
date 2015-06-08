@@ -1,12 +1,16 @@
 var CommentsGrid = React.createClass({
     getInitialState: function () {
-        return {comments: CommentsStore.get()}
+        return {comments: CommentsStore.get(), selectedPost: SelectedPostStore.get()}
     },
     componentDidMount: function () {
         CommentsStore.listen(this.onCommentsUpdated);
+        SelectedPostStore.listen(this.onSelectedPostUpdated);
     },
     onCommentsUpdated: function () {
         this.setState({comments: CommentsStore.get()})
+    },
+    onSelectedPostUpdated: function () {
+        this.setState({selectedPost: SelectedPostStore.get()});
     },
     renderTable: function () {
         return (
@@ -28,12 +32,29 @@ var CommentsGrid = React.createClass({
         );
     },
     renderNoComments: function () {
+        return (<div>No comments for this post</div>);
+    },
+    renderNoPostSelected: function () {
         return (<div>No post selected</div>);
+    },
+    getComponentToRender: function () {
+        var result;
+        if (SelectedPostStore.get()) {
+            if (CommentsStore.isEmpty()) {
+                result = this.renderNoComments();
+            } else {
+                result = this.renderTable();
+            }
+        } else {
+            result = this.renderNoPostSelected();
+        }
+
+        return result;
     },
     render: function () {
         return (
             <div className={ this.props.visible ? '' : 'hidden'}>
-                { this.state.comments.length === 0 ? this.renderNoComments() : this.renderTable() }
+                { this.getComponentToRender() }
             </div>
         );
     }

@@ -8,6 +8,7 @@ var FetchForm = React.createClass({
         if (!pageId || !postsNumber) {
             Actions.error('Please fill in page id and posts number fields');
         } else {
+            Actions.post.deselect();
             Actions.fetch(pageId, postsNumber);
         }
     },
