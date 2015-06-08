@@ -1,7 +1,17 @@
 var Post = Backbone.Model.extend({
     parse: function (response, options) {
+        var composeComments = function (comments) {
+            return (comments && comments.data.map(function (comment) {
+                return new Comment(comment, {parse: true});
+            })) || [];
+        };
+        var composeObjectId = function (response) {
+            return response.object_id || response.id.split('_')[1];
+        };
+
         return {
-            object_id: response.object_id,
+            id: response.id,
+            object_id: composeObjectId(response),
             created_time: response.created_time,
             message: response.message || '',
             likes: response.likes.summary.total_count,
@@ -10,9 +20,7 @@ var Post = Backbone.Model.extend({
                 thumb: response.picture,
                 full: response.picture && 'http://graph.facebook.com/' + response.object_id + '/picture'
             },
-            comments: response.comments.data.map(function (comment) {
-                return new Comment(comment, {parse: true});
-            })
+            comments: composeComments(response.comments)
         }
     },
     getFormattedDate: function () {
