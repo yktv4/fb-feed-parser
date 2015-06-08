@@ -10,7 +10,7 @@ var CommentsGrid = React.createClass({
     },
     renderTable: function () {
         return (
-            <table id="js-posts-grid" className="table table-condensed table-striped">
+            <table id="js-comments-grid" className="table table-condensed table-striped">
                 <thead>
                     <tr>
                         <th>Date</th>

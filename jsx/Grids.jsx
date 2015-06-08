@@ -2,7 +2,10 @@ var Grids = React.createClass({
     getInitialState: function () {
         return {active: 'posts'}
     },
-    show: function (what) {
+    componentDidMount: function () {
+        Actions.grid.show.listen(this.onShow)
+    },
+    onShow: function (what) {
         this.setState({active: what});
     },
     isPostsVisible: function () {
@@ -20,13 +23,13 @@ var Grids = React.createClass({
                 <div>
                     <ul className="nav nav-tabs nav-justified">
                         <li role="presentation" className={ this.isPostsVisible() ? 'active' : '' }>
-                            <a href="javascript:void(0)" onClick={ this.show.bind(this, 'posts') }>Posts</a>
+                            <a href="javascript:void(0)" onClick={ Actions.grid.show.bind(this, 'posts') }>Posts</a>
                         </li>
                         <li role="presentation" className={ this.isCommentsVisible() ? 'active' : '' }>
-                            <a href="javascript:void(0)" onClick={ this.show.bind(this, 'comments') }>Comments</a>
+                            <a href="javascript:void(0)" onClick={ Actions.grid.show.bind(this, 'comments') }>Comments</a>
                         </li>
                         <li role="presentation" className={ this.isKeywordsVisible() ? 'active' : '' }>
-                            <a href="javascript:void(0)" onClick={ this.show.bind(this, 'keywords') }>Keywords</a>
+                            <a href="javascript:void(0)" onClick={ Actions.grid.show.bind(this, 'keywords') }>Keywords</a>
                         </li>
                     </ul>
                 </div>

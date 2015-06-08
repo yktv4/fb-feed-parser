@@ -1,6 +1,7 @@
 var Comment = Backbone.Model.extend({
     parse: function (response, options) {
         return {
+            id: response.id,
             created_time: response.created_time,
             message: response.message || '',
             likes: response.like_count,

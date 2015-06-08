@@ -13,5 +13,8 @@ var Actions = {
     post: {
         select: Reflux.createAction(),
         deselect: Reflux.createAction()
+    },
+    grid: {
+        show: Reflux.createAction()
     }
 };
