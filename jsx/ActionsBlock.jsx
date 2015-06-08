@@ -11,7 +11,7 @@ var ActionsBlock = React.createClass({
     render: function () {
         return (
             <div className={ this.state.loggedIn ? '' : 'hidden' }>
-                <FetchForm />
+                <ControlForm />
                 <Grids />
             </div>
         );

@@ -1,4 +1,4 @@
-var FetchForm = React.createClass({
+var ControlForm = React.createClass({
     onSubmit: function (e) {
         e.preventDefault();
         var $domNode = $(React.findDOMNode(this));
