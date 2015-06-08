@@ -26,7 +26,7 @@ var PostsGrid = React.createClass({
                 </thead>
                 <tbody>
                     { this.state.posts.map(function (el) {
-                        return <PostGridItem key={ el.get('object_id') } post={ el } />
+                        return <PostGridItem key={ el.get('id') } post={ el } />
                     }) }
                 </tbody>
             </table>
