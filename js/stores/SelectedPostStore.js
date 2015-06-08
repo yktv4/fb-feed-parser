@@ -14,5 +14,8 @@ var SelectedPostStore = Reflux.createStore({
     },
     get: function () {
         return this.post;
+    },
+    isEmpty: function () {
+        return this.post === null;
     }
 });
