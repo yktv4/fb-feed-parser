@@ -20,7 +20,8 @@ var Post = Backbone.Model.extend({
                 thumb: response.picture,
                 full: response.picture && 'http://graph.facebook.com/' + response.object_id + '/picture'
             },
-            comments: composeComments(response.comments)
+            comments: composeComments(response.comments),
+            apiData: response
         }
     },
     getFormattedDate: function () {

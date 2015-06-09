@@ -1,26 +1,32 @@
 var SelectedPostControls = React.createClass({
+    unlisteners: [],
     unlistenSelectedPostStore: null,
     getInitialState: function () {
-        return {selectedPost: SelectedPostStore.get()}
+        return {selectedPost: SelectedPostStore.get(), enableLoadMore: false}
     },
     componentDidMount: function () {
-        this.unlistenSelectedPostStore = SelectedPostStore.listen(this.onSelectedPostUpdated);
+        this.unlisteners.push(SelectedPostStore.listen(this.onSelectedPostUpdated));
+        this.unlisteners.push(CommentsStore.listen(this.onCommentsUpdated));
     },
     componentWillUnmount: function () {
-        this.unlistenSelectedPostStore();
+        this.unlisteners.map(function (unlisten) {unlisten();});
     },
     onSelectedPostUpdated: function () {
         this.setState({selectedPost: SelectedPostStore.get()});
     },
+    onCommentsUpdated: function () {
+        this.setState({
+            enableLoadMore: CommentsStore.isEmpty() ? false : CommentsStore.get()})
+    },
     onPostDeselect: function () {
-        Actions.post.deselect();
         Actions.grid.show('posts');
+        Actions.post.deselect();
     },
     render: function () {
         return (
             <div className="btn-group" role="group" aria-label="...">
                 <button type="button" className="btn btn-default" visible={ SelectedPostStore.isEmpty() } onClick={ this.onPostDeselect }>Deselect post</button>
-                <button type="button" className="btn btn-default" disabled={ CommentsStore.isEmpty() }>More comments</button>
+                <button type="button" className="btn btn-default" disabled={ !CommentsStore.moreAvailable() } onClick={ Actions.comments.loadMore }>More</button>
             </div>
         );
     }

@@ -1,6 +1,6 @@
 var CommentsGrid = React.createClass({
     getInitialState: function () {
-        return {comments: CommentsStore.get(), selectedPost: SelectedPostStore.get()}
+        return {comments: CommentsStore.get(), selectedPost: SelectedPostStore.get(), showSelectedPostControls: false}
     },
     componentDidMount: function () {
         CommentsStore.listen(this.onCommentsUpdated);
@@ -10,25 +10,28 @@ var CommentsGrid = React.createClass({
         this.setState({comments: CommentsStore.get()})
     },
     onSelectedPostUpdated: function () {
-        this.setState({selectedPost: SelectedPostStore.get()});
+        this.setState({selectedPost: SelectedPostStore.get(), showSelectedPostControls: !SelectedPostStore.isEmpty()});
     },
     renderTable: function () {
         return (
-            <table id="js-comments-grid" className="table table-condensed table-striped">
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>From</th>
-                        <th>Message</th>
-                        <th>Likes</th>
-                    </tr>
-                </thead>
-                <tbody>
+            <div>
+                { this.state.showSelectedPostControls ? <SelectedPostControls /> : null }
+                <table id="js-comments-grid" className="table table-condensed table-striped">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>From</th>
+                            <th>Message</th>
+                            <th>Likes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
                     { this.state.comments.map(function (el) {
                         return <CommentsGridItem key={ el.id } comment={ el } />
                     }) }
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            </div>
         );
     },
     renderNoComments: function () {

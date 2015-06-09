@@ -12,9 +12,13 @@ var Actions = {
     },
     post: {
         select: Reflux.createAction(),
-        deselect: Reflux.createAction()
+        deselect: Reflux.createAction(),
+        updated: Reflux.createAction()
     },
     grid: {
         show: Reflux.createAction()
+    },
+    comments: {
+        loadMore: Reflux.createAction()
     }
 };

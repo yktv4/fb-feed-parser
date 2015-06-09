@@ -1,13 +1,4 @@
 var ControlForm = React.createClass({
-    getInitialState: function () {
-        return {showSelectedPostControls: false};
-    },
-    componentDidMount: function () {
-        SelectedPostStore.listen(this.onSelectedPostUpdated);
-    },
-    onSelectedPostUpdated: function () {
-        this.setState({showSelectedPostControls: !SelectedPostStore.isEmpty()});
-    },
     onSubmit: function (e) {
         e.preventDefault();
         var $domNode = $(React.findDOMNode(this));
@@ -26,13 +17,6 @@ var ControlForm = React.createClass({
             this.onSubmit(e);
         }
     },
-    renderSelectedPostControls: function () {
-        return (
-            <div className="col-sm-6 col-lg-4">
-                <SelectedPostControls />
-            </div>
-        );
-    },
     render: function () {
         return (
             <div className="well clearfix">
@@ -48,7 +32,6 @@ var ControlForm = React.createClass({
                         <Export />
                     </div>
                 </div>
-                { this.state.showSelectedPostControls ? this.renderSelectedPostControls() : null }
             </div>
         )
     }
