@@ -20,3 +20,7 @@
 #js-posts-grid>tbody>tr {
     cursor: pointer;
 }
+
+.selected-post-controls {
+    margin-bottom: 30px;
+}

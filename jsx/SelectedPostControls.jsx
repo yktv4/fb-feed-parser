@@ -24,7 +24,7 @@ var SelectedPostControls = React.createClass({
     },
     render: function () {
         return (
-            <div className="btn-group" role="group" aria-label="...">
+            <div className="btn-group selected-post-controls" role="group" aria-label="...">
                 <button type="button" className="btn btn-default" visible={ SelectedPostStore.isEmpty() } onClick={ this.onPostDeselect }>Deselect post</button>
                 <button type="button" className="btn btn-default" disabled={ !CommentsStore.moreAvailable() } onClick={ Actions.comments.loadMore }>More</button>
             </div>

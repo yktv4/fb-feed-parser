@@ -7,7 +7,12 @@ var CommentsGrid = React.createClass({
         SelectedPostStore.listen(this.onSelectedPostUpdated);
     },
     onCommentsUpdated: function () {
-        this.setState({comments: CommentsStore.get()})
+        var comments = CommentsStore.get();
+        this.setState({comments: comments})
+
+        if (comments.length !== 0) {
+            $(React.findDOMNode(this)).find('table').DataTable();
+        }
     },
     onSelectedPostUpdated: function () {
         this.setState({selectedPost: SelectedPostStore.get(), showSelectedPostControls: !SelectedPostStore.isEmpty()});
