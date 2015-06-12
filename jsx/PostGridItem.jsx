@@ -1,14 +1,28 @@
 var PostGridItem = React.createClass({
+    unlisteners: [],
+    getInitialState: function () {
+        return {selected: false};
+    },
+    componentDidMount: function () {
+        this.unlisteners.push(SelectedPostStore.listen(this.onSelectedPostUpdated));
+    },
+    onSelectedPostUpdated: function () {
+        var post = SelectedPostStore.get();
+        this.setState({selected: post && post.get('id') === this.props.post.get('id')});
+    },
     onClick: function () {
         Actions.post.select(this.props.post);
         Actions.grid.show('comments');
+    },
+    componentWillUnmount: function () {
+        this.unlisteners.map(function (unlisten) {unlisten();});
     },
     onImageClick: function (e) {
         e.stopPropagation();
     },
     render: function () {
         return (
-            <tr onClick={ this.onClick }>
+            <tr onClick={ this.onClick } className={ this.state.selected ? 'success' : null }>
                 <td className="date-cell">{ this.props.post.getFormattedDate() }</td>
                 <td>
                     { this.props.post.get('message') }

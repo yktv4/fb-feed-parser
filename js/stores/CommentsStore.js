@@ -6,23 +6,19 @@ var CommentsStore = Reflux.createStore({
         Actions.comments.loadMore.listen(this.onLoadMore);
     },
     onSelectedPostUpdated: function () {
+        this.comments = [];
+
         if (SelectedPostStore.isEmpty()) {
-            this.comments = [];
             this.nextPaginationAvailable = false;
         } else {
             var post = SelectedPostStore.get();
             this.comments = post.get('comments');
             this.nextPaginationAvailable = !!post.get('apiData').comments.paging.next;
-            console.log('pagination is ' + this.nextPaginationAvailable, post.get('apiData').comments.paging);
         }
         this.trigger();
     },
     onLoadMore: function () {
         Actions.loading.start();
-        this.comments = [];
-        this.trigger();
-
-        console.log('next link is: ' + SelectedPostStore.get().get('apiData').comments.paging.next);
 
         fetch(SelectedPostStore.get().get('apiData').comments.paging.next).then(function (response) {
             return response.text();
